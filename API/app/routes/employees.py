@@ -96,11 +96,11 @@ def get_staff():
         Response: A JSON response containing the employee data and an HTTP status code 200.
     """
     db = current_app.db
-    employee_number = request.args.get('id')
+    employee_number = request.args.get('employee_number')
 
     if employee_number:
         # employee = Employee.query.filter_by(employee_number=employee_number).first()
-        collection_ref = db.collection('EMPLOYEES').where('id', '==', employee_number).first()
+        collection_ref = db.collection('EMPLOYEES').where('employee_number', '==', employee_number)
         docs = collection_ref.stream()
         data = []
         for doc in docs:

@@ -7,7 +7,7 @@ final showTableNotifierProvider =
 });
 
 class ShowTableNotifierNotifier extends StateNotifier<bool> {
-  ShowTableNotifierNotifier() : super(false);
+  ShowTableNotifierNotifier() : super(true);
 
   void toggle() {
     state = !state;

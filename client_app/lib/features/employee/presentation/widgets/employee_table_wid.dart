@@ -15,40 +15,45 @@ class EmployeeTableWid extends ConsumerWidget {
       scrollDirection: Axis.vertical,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: DataTable(
-          showBottomBorder: true,
-          columns: const [
-            DataColumn(label: Text('Surname')),
-            DataColumn(label: Text('Other Names')),
-            DataColumn(label: Text('Date of Birth')),
-          ],
-          rows: data
-              .map(
-                (e) => DataRow(
-                  cells: [
-                    DataCell(
-                      TextButton.icon(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => EditEmployeeScreen(e),
-                            ),
-                          );
-                        },
-                        icon: const Icon(Icons.edit, color: Colors.green),
-                        label: Text(
-                          e.surname,
-                          style: Theme.of(context).textTheme.bodyMedium,
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: DataTable(
+            showBottomBorder: true,
+            columns: const [
+              DataColumn(label: Text('EMPLOYEE NUMBER')),
+              DataColumn(label: Text('SURNAME')),
+              DataColumn(label: Text('OTHER NAMES')),
+              DataColumn(label: Text('DATE OF BIRTH')),
+            ],
+            rows: data
+                .map(
+                  (e) => DataRow(
+                    cells: [
+                      DataCell(Text(e.employee_number)),
+                      DataCell(
+                        TextButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => EditEmployeeScreen(e),
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.edit, color: Colors.green),
+                          label: Text(
+                            e.surname,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
                         ),
                       ),
-                    ),
-                    DataCell(Text(e.otherNames)),
-                    DataCell(Text(dFormat.format(e.dob as DateTime))),
-                  ],
-                ),
-              )
-              .toList(),
+                      DataCell(Text(e.otherNames)),
+                      DataCell(Text(dFormat.format(e.dob as DateTime))),
+                    ],
+                  ),
+                )
+                .toList(),
+          ),
         ),
       ),
     );

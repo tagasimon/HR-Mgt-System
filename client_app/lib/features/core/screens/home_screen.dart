@@ -1,4 +1,4 @@
-import 'package:client_app/features/employee/presentation/screens/add_customer_screen.dart';
+import 'package:client_app/features/employee/presentation/screens/add_employee_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,12 +26,15 @@ class HomeScreen extends ConsumerWidget {
           if (data == null) {
             return const Center(child: Text('No data'));
           }
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              if (showTable) Expanded(child: EmployeeTableWid(data)),
-              if (!showTable) Expanded(child: EmployeeListWid(data))
-            ],
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (showTable) Expanded(child: EmployeeTableWid(data)),
+                if (!showTable) Expanded(child: EmployeeListWid(data))
+              ],
+            ),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),

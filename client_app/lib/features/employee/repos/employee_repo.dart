@@ -36,31 +36,31 @@ class EmployeeRepo extends EmployeeService {
   Future<List<EmployeeModel>> getDummyData() {
     List<EmployeeModel> dummyEmployees = [
       EmployeeModel(
-        id: "001",
+        employee_number: "001",
         surname: "Employee1",
         otherNames: "Employee Other Name 1",
         dob: DateTime(1990, 1, 1),
       ),
       EmployeeModel(
-        id: "002",
+        employee_number: "002",
         surname: "Employee2",
         otherNames: "Employee Other Name 2",
         dob: DateTime(1990, 1, 1),
       ),
       EmployeeModel(
-        id: "003",
+        employee_number: "003",
         surname: "Employee3",
         otherNames: "Employee Other Name 3",
         dob: DateTime(1990, 1, 1),
       ),
       EmployeeModel(
-        id: "004",
+        employee_number: "004",
         surname: "Employee4",
         otherNames: "Employee Other Name 4",
         dob: DateTime(1990, 1, 1),
       ),
       EmployeeModel(
-        id: "005",
+        employee_number: "005",
         surname: "Employee5",
         otherNames: "Employee Other Name 5",
         dob: DateTime(1990, 1, 1),

@@ -2,13 +2,13 @@
 import 'dart:convert';
 
 class EmployeeModel {
-  final String id;
+  final String employee_number;
   final String surname;
   final String otherNames;
   final Object dob;
   final String? idPhoto;
   EmployeeModel({
-    required this.id,
+    required this.employee_number,
     required this.surname,
     required this.otherNames,
     required this.dob,
@@ -16,14 +16,14 @@ class EmployeeModel {
   });
 
   EmployeeModel copyWith({
-    String? id,
+    String? employee_number,
     String? surname,
     String? otherNames,
     Object? dob,
     String? idPhoto,
   }) {
     return EmployeeModel(
-      id: id ?? this.id,
+      employee_number: employee_number ?? this.employee_number,
       surname: surname ?? this.surname,
       otherNames: otherNames ?? this.otherNames,
       dob: dob ?? this.dob,
@@ -33,7 +33,7 @@ class EmployeeModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
+      'employee_number': employee_number,
       'surname': surname,
       'otherNames': otherNames,
       'dob': dob,
@@ -43,7 +43,7 @@ class EmployeeModel {
 
   factory EmployeeModel.fromMap(Map<String, dynamic> map) {
     return EmployeeModel(
-      id: map['id'] as String,
+      employee_number: map['employee_number'] as String,
       surname: map['surname'] as String,
       otherNames: map['otherNames'] as String,
       dob: map['dob'] as Object,
@@ -58,14 +58,14 @@ class EmployeeModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, surname: $surname, otherNames: $otherNames, dob: $dob, idPhoto: $idPhoto)';
+    return 'UserModel(id: $employee_number, surname: $surname, otherNames: $otherNames, dob: $dob, idPhoto: $idPhoto)';
   }
 
   @override
   bool operator ==(covariant EmployeeModel other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
+    return other.employee_number == employee_number &&
         other.surname == surname &&
         other.otherNames == otherNames &&
         other.dob == dob &&
@@ -74,7 +74,7 @@ class EmployeeModel {
 
   @override
   int get hashCode {
-    return id.hashCode ^
+    return employee_number.hashCode ^
         surname.hashCode ^
         otherNames.hashCode ^
         dob.hashCode ^

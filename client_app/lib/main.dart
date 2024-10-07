@@ -1,4 +1,6 @@
 import 'package:client_app/features/core/widgets/nav_widget.dart';
+import 'package:client_app/features/core/widgets/web_nav_widget.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const NavWidget(),
+      home: kIsWeb ? const WebNavWidget() : const NavWidget(),
     );
   }
 }

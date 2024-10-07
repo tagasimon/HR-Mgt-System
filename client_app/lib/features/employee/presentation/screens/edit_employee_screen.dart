@@ -41,6 +41,7 @@ class _EditEmployeeScreenState extends ConsumerState<EditEmployeeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(employeeControllersProvider);
     ref.listen(employeeControllersProvider, (_, next) {
       if (next.hasError) {
         final snackBar = SnackBar(
@@ -67,6 +68,7 @@ class _EditEmployeeScreenState extends ConsumerState<EditEmployeeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   TextFormField(
+                    enabled: false,
                     controller: surnameController,
                     decoration: const InputDecoration(
                       labelText: 'Surname',
@@ -81,6 +83,7 @@ class _EditEmployeeScreenState extends ConsumerState<EditEmployeeScreen> {
                   ),
                   const SizedBox(height: 10),
                   TextFormField(
+                    enabled: false,
                     controller: otherNamesController,
                     decoration: const InputDecoration(
                       labelText: 'Other Names',
@@ -94,11 +97,39 @@ class _EditEmployeeScreenState extends ConsumerState<EditEmployeeScreen> {
                     },
                   ),
                   const SizedBox(height: 10),
+                  TextFormField(
+                    controller: idPhotoController,
+                    decoration: const InputDecoration(
+                      labelText: 'Photo URL',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter photo URL';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
+                      IconButton(
+                        onPressed: () async {
+                          final DateTime? picked = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now(),
+                          );
+                          if (picked != null) {
+                            dobController.text = picked.toString();
+                          }
+                        },
+                        icon: const Icon(Icons.calendar_month),
+                      ),
                       Expanded(
                         child: TextFormField(
-                          enabled: false,
+                          // enabled: false,
                           controller: dobController,
                           decoration: const InputDecoration(
                             labelText: 'Date of Birth',
@@ -111,21 +142,6 @@ class _EditEmployeeScreenState extends ConsumerState<EditEmployeeScreen> {
                             return null;
                           },
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      OutlinedButton(
-                        onPressed: () async {
-                          final DateTime? picked = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime.now(),
-                          );
-                          if (picked != null) {
-                            dobController.text = picked.toString();
-                          }
-                        },
-                        child: const Icon(Icons.calendar_month),
                       ),
                     ],
                   ),
@@ -140,34 +156,39 @@ class _EditEmployeeScreenState extends ConsumerState<EditEmployeeScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      onPressed: () async {
-                        final scaff = ScaffoldMessenger.of(context);
-                        final nav = Navigator.of(context);
-                        if (!_key.currentState!.validate()) {
-                          return;
-                        }
-                        final nEmployee = EmployeeModel(
-                          employee_number: widget.employee.employee_number,
-                          surname: surnameController.text,
-                          other_names: otherNamesController.text,
-                          date_of_birth: dobController.text,
-                          id_photo: idPhotoController.text,
-                        );
+                      onPressed: state.isLoading
+                          ? null
+                          : () async {
+                              final scaff = ScaffoldMessenger.of(context);
+                              final nav = Navigator.of(context);
+                              if (!_key.currentState!.validate()) {
+                                return;
+                              }
+                              final nEmployee = EmployeeModel(
+                                employee_number:
+                                    widget.employee.employee_number,
+                                surname: surnameController.text,
+                                other_names: otherNamesController.text,
+                                date_of_birth: dobController.text,
+                                id_photo: idPhotoController.text,
+                              );
 
-                        final res = await ref
-                            .read(employeeControllersProvider.notifier)
-                            .updateEmployee(nEmployee);
-                        if (res) {
-                          nav.pop();
-                          const snackBar = SnackBar(
-                            behavior: SnackBarBehavior.floating,
-                            content: Text("SAVED!!"),
-                            duration: Duration(seconds: 5),
-                          );
-                          scaff.showSnackBar(snackBar);
-                        }
-                      },
-                      child: const Text('SAVE'),
+                              final res = await ref
+                                  .read(employeeControllersProvider.notifier)
+                                  .updateEmployee(nEmployee);
+                              if (res) {
+                                nav.pop();
+                                const snackBar = SnackBar(
+                                  behavior: SnackBarBehavior.floating,
+                                  content: Text("SAVED!!"),
+                                  duration: Duration(seconds: 5),
+                                );
+                                scaff.showSnackBar(snackBar);
+                              }
+                            },
+                      child: state.isLoading
+                          ? const CircularProgressIndicator()
+                          : const Text('SAVE'),
                     ),
                   ),
                 ],

@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:client_app/features/employee/models/employee_model.dart';
 import 'package:client_app/features/employee/repos/employee_service.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class EmployeeRepo extends EmployeeService {
@@ -17,7 +16,6 @@ class EmployeeRepo extends EmployeeService {
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
       body: employee.toMap(),
     );
-    debugPrint('Response: ${response.body}');
     if (response.statusCode == 201) {
       return response.body;
     } else {
@@ -43,17 +41,8 @@ class EmployeeRepo extends EmployeeService {
   }
 
   @override
-  Future<EmployeeModel?> getEmployeeById(String employeeNumber) async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/api/staff?employee_number=$employeeNumber'),
-    );
-
-    if (response.statusCode == 200) {
-      final employee = jsonDecode(response.body);
-      return EmployeeModel.fromMap(employee);
-    } else {
-      throw Exception('Failed to load employee');
-    }
+  Future<EmployeeModel?> getEmployeeById(String id) async {
+    throw UnimplementedError();
   }
 
   @override
@@ -62,12 +51,10 @@ class EmployeeRepo extends EmployeeService {
       Uri.parse('$baseUrl/api/staff/${employee.employee_number}'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
-        'employee_number': employee.employee_number,
         'date_of_birth': employee.date_of_birth,
         'id_photo': employee.id_photo,
       }),
     );
-    debugPrint('Response: ${response.body}');
     if (response.statusCode == 200) {
       return response.body;
     } else {

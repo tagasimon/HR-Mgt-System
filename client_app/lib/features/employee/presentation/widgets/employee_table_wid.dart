@@ -18,6 +18,7 @@ class EmployeeTableWid extends ConsumerWidget {
           child: DataTable(
             showBottomBorder: true,
             columns: const [
+              DataColumn(label: Text('')),
               DataColumn(label: Text('EMPLOYEE NUMBER')),
               DataColumn(label: Text('SURNAME')),
               DataColumn(label: Text('OTHER NAMES')),
@@ -27,6 +28,13 @@ class EmployeeTableWid extends ConsumerWidget {
                 .map(
                   (e) => DataRow(
                     cells: [
+                      DataCell(
+                        e.id_photo == null
+                            ? const Icon(Icons.person)
+                            : CircleAvatar(
+                                backgroundImage: NetworkImage(e.id_photo!),
+                              ),
+                      ),
                       DataCell(Text(e.employee_number)),
                       DataCell(
                         TextButton.icon(

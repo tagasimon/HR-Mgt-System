@@ -13,9 +13,11 @@ class EmployeeListWid extends ConsumerWidget {
       itemCount: data.length,
       itemBuilder: (_, index) => Card(
         child: ListTile(
-          leading: CircleAvatar(
-            child: Text(data[index].surname?[0] ?? ""),
-          ),
+          leading: data[index].id_photo == null
+              ? const Icon(Icons.person)
+              : CircleAvatar(
+                  backgroundImage: NetworkImage(data[index].id_photo!),
+                ),
           title: Text(data[index].surname ?? ""),
           subtitle: Text(data[index].other_names ?? ""),
           trailing: IconButton(

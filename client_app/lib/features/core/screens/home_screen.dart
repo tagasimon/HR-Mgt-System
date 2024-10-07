@@ -44,7 +44,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) {
-          debugPrint('Error: $error, Stack: $stack');
           return Center(child: Text('Error: $error'));
         },
       ),

@@ -43,11 +43,11 @@ class ApiRequestModel {
 
   factory ApiRequestModel.fromMap(Map<String, dynamic> map) {
     return ApiRequestModel(
-      name: map['name'] as String,
-      status: map['status'] as String,
-      message: map['message'] as String,
+      name: map['name'] ?? '',
+      status: map['status'] ?? '',
+      message: map['message'] ?? '',
       date: map['date'] as Object,
-      method: map['method'] as String,
+      method: map['method'] ?? '',
     );
   }
 

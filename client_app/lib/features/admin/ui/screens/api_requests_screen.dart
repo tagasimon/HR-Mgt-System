@@ -10,36 +10,43 @@ class ApiRequestsScreen extends ConsumerWidget {
     final apiRequestsProv = ref.watch(apiRequestsProvider);
     // return a table of api requests
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("API Requests"),
-      ),
+      appBar: AppBar(title: const Text("API Requests")),
       body: apiRequestsProv.when(
         data: (data) {
           if (data == null) {
             return const Center(child: Text("No data"));
           }
           // return a database table of api requests
-          return DataTable(
-            columns: const [
-              DataColumn(label: Text("Name")),
-              DataColumn(label: Text("status")),
-              DataColumn(label: Text("Message")),
-              DataColumn(label: Text("Date")),
-              DataColumn(label: Text("Method")),
-            ],
-            rows: data
-                .map(
-                  (e) => DataRow(
-                    cells: [
-                      DataCell(Text(e.name)),
-                      DataCell(Text(e.status)),
-                      DataCell(Text(e.message)),
-                      DataCell(Text("${e.date}")),
-                      DataCell(Text(e.method)),
-                    ],
-                  ),
-                )
-                .toList(),
+          return SizedBox(
+            width: double.infinity,
+            child: DataTable(
+              columns: const [
+                DataColumn(label: Text("")),
+                DataColumn(label: Text("Name")),
+                DataColumn(label: Text("status")),
+                DataColumn(label: Text("Message")),
+                DataColumn(label: Text("Date")),
+                DataColumn(label: Text("Method")),
+              ],
+              rows: data
+                  .map(
+                    (e) => DataRow(
+                      cells: [
+                        DataCell(
+                          e.status == "success"
+                              ? const Icon(Icons.check, color: Colors.green)
+                              : const Icon(Icons.error, color: Colors.red),
+                        ),
+                        DataCell(Text(e.name)),
+                        DataCell(Text(e.status)),
+                        DataCell(Text(e.message)),
+                        DataCell(Text("${e.date}")),
+                        DataCell(Text(e.method)),
+                      ],
+                    ),
+                  )
+                  .toList(),
+            ),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),

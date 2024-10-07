@@ -92,11 +92,39 @@ class _AddEmployeeScreenState extends ConsumerState<AddEmployeeScreen> {
                     },
                   ),
                   const SizedBox(height: 10),
+                  TextFormField(
+                    controller: idPhotoController,
+                    decoration: const InputDecoration(
+                      labelText: 'Photo URL',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter photo URL';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
+                      IconButton(
+                        onPressed: () async {
+                          final DateTime? picked = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now(),
+                          );
+                          if (picked != null) {
+                            dobController.text = picked.toString();
+                          }
+                        },
+                        icon: const Icon(Icons.calendar_month),
+                      ),
                       Expanded(
                         child: TextFormField(
-                          enabled: false,
+                          // enabled: false,
                           controller: dobController,
                           decoration: const InputDecoration(
                             labelText: 'Date of Birth',
@@ -109,21 +137,6 @@ class _AddEmployeeScreenState extends ConsumerState<AddEmployeeScreen> {
                             return null;
                           },
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      OutlinedButton(
-                        onPressed: () async {
-                          final DateTime? picked = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime.now(),
-                          );
-                          if (picked != null) {
-                            dobController.text = picked.toString();
-                          }
-                        },
-                        child: const Icon(Icons.calendar_month),
                       ),
                     ],
                   ),

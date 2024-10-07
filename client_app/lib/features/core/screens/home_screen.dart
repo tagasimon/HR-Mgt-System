@@ -8,12 +8,17 @@ import 'package:client_app/features/employee/presentation/widgets/employee_list_
 import 'package:client_app/features/employee/presentation/widgets/employee_table_wid.dart';
 import 'package:client_app/features/employee/presentation/widgets/toggle_view_wid.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final employeesProv = ref.watch(dummyEmployeeDataProvider);
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  Widget build(BuildContext context) {
+    final employeesProv = ref.watch(getAllEmployeesProvider);
     final showTable = ref.watch(showTableNotifierProvider);
     return Scaffold(
       appBar: AppBar(
@@ -38,7 +43,10 @@ class HomeScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text('Error: $error')),
+        error: (error, stack) {
+          debugPrint('Error: $error, Stack: $stack');
+          return Center(child: Text('Error: $error'));
+        },
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {

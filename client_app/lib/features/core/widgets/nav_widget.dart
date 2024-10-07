@@ -1,5 +1,5 @@
+import 'package:client_app/features/admin/ui/screens/api_requests_screen.dart';
 import 'package:client_app/features/core/screens/home_screen.dart';
-import 'package:client_app/features/employee/presentation/screens/admin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,7 +14,7 @@ class _NavWidgetState extends ConsumerState<NavWidget> {
   int _currentIndex = 0;
   final List<Widget> _screens = [
     const HomeScreen(),
-    const AdminScreen(),
+    const ApiRequestsScreen(),
   ];
   @override
   Widget build(BuildContext context) {

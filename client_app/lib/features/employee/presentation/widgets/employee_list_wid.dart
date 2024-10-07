@@ -14,10 +14,10 @@ class EmployeeListWid extends ConsumerWidget {
       itemBuilder: (_, index) => Card(
         child: ListTile(
           leading: CircleAvatar(
-            child: Text(data[index].surname[0]),
+            child: Text(data[index].surname?[0] ?? ""),
           ),
-          title: Text(data[index].surname),
-          subtitle: Text(data[index].otherNames),
+          title: Text(data[index].surname ?? ""),
+          subtitle: Text(data[index].other_names ?? ""),
           trailing: IconButton(
             icon: const Icon(Icons.edit, color: Colors.green),
             onPressed: () {

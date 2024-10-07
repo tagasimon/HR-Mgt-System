@@ -1,6 +1,5 @@
 import 'package:client_app/features/employee/models/employee_model.dart';
 import 'package:client_app/features/employee/presentation/controllers/employee_controllers.dart';
-import 'package:client_app/features/employee/presentation/widgets/edit_customer_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,9 +23,10 @@ class _EditEmployeeScreenState extends ConsumerState<EditEmployeeScreen> {
   void initState() {
     surnameController = TextEditingController(text: widget.employee.surname);
     otherNamesController =
-        TextEditingController(text: widget.employee.otherNames);
-    dobController = TextEditingController(text: widget.employee.dob.toString());
-    idPhotoController = TextEditingController(text: widget.employee.idPhoto);
+        TextEditingController(text: widget.employee.other_names);
+    dobController =
+        TextEditingController(text: widget.employee.date_of_birth.toString());
+    idPhotoController = TextEditingController(text: widget.employee.id_photo);
     super.initState();
   }
 
@@ -55,7 +55,6 @@ class _EditEmployeeScreenState extends ConsumerState<EditEmployeeScreen> {
       appBar: AppBar(
         title: Text('Edit ${widget.employee.surname}'),
         centerTitle: true,
-        actions: [EditCustomerWidget(widget.employee.employee_number)],
       ),
       body: Form(
         key: _key,
@@ -150,9 +149,9 @@ class _EditEmployeeScreenState extends ConsumerState<EditEmployeeScreen> {
                         final nEmployee = EmployeeModel(
                           employee_number: widget.employee.employee_number,
                           surname: surnameController.text,
-                          otherNames: otherNamesController.text,
-                          dob: DateTime.parse(dobController.text),
-                          idPhoto: idPhotoController.text,
+                          other_names: otherNamesController.text,
+                          date_of_birth: dobController.text,
+                          id_photo: idPhotoController.text,
                         );
 
                         final res = await ref
@@ -162,7 +161,7 @@ class _EditEmployeeScreenState extends ConsumerState<EditEmployeeScreen> {
                           nav.pop();
                           const snackBar = SnackBar(
                             behavior: SnackBarBehavior.floating,
-                            content: Text("DELETED!!"),
+                            content: Text("SAVED!!"),
                             duration: Duration(seconds: 5),
                           );
                           scaff.showSnackBar(snackBar);

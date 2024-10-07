@@ -1,35 +1,78 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:convert';
+
 import 'package:client_app/features/employee/models/employee_model.dart';
 import 'package:client_app/features/employee/repos/employee_service.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class EmployeeRepo extends EmployeeService {
+  final String baseUrl;
+  EmployeeRepo({required this.baseUrl});
+
   @override
-  Future<void> createEmployee(EmployeeModel employee) {
-    // TODO: implement createEmployee
-    throw UnimplementedError();
+  Future<String> createEmployee(EmployeeModel employee) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/api/register'),
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: employee.toMap(),
+    );
+    debugPrint('Response: ${response.body}');
+    if (response.statusCode == 201) {
+      return response.body;
+    } else {
+      throw Exception('Failed to register staff');
+    }
   }
 
   @override
-  Future<void> deleteEmployee(String userId) {
+  Future<String?> deleteEmployee(String userId) {
     // TODO: implement deleteEmployee
     throw UnimplementedError();
   }
 
   @override
-  Future<List<EmployeeModel>?> getAllEmployees() {
-    // TODO: implement getAllEmployees
-    throw UnimplementedError();
+  Future<List<EmployeeModel>?> getAllEmployees() async {
+    final response = await http.get(Uri.parse('$baseUrl/api/staff'));
+    if (response.statusCode == 200) {
+      List<dynamic> employees = jsonDecode(response.body);
+      return employees.map((e) => EmployeeModel.fromMap(e)).toList();
+    } else {
+      throw Exception('Failed to load employees');
+    }
   }
 
   @override
-  Future<EmployeeModel?> getEmployeeById(String userId) {
-    // TODO: implement getEmployeeById
-    throw UnimplementedError();
+  Future<EmployeeModel?> getEmployeeById(String employeeNumber) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/api/staff?employee_number=$employeeNumber'),
+    );
+
+    if (response.statusCode == 200) {
+      final employee = jsonDecode(response.body);
+      return EmployeeModel.fromMap(employee);
+    } else {
+      throw Exception('Failed to load employee');
+    }
   }
 
   @override
-  Future<void> updateEmployee(EmployeeModel employee) {
-    // TODO: implement updateEmployee
-    throw UnimplementedError();
+  Future<String> updateEmployee(EmployeeModel employee) async {
+    final response = await http.put(
+      Uri.parse('$baseUrl/api/staff/${employee.employee_number}'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'employee_number': employee.employee_number,
+        'date_of_birth': employee.date_of_birth,
+        'id_photo': employee.id_photo,
+      }),
+    );
+    debugPrint('Response: ${response.body}');
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception('Failed to update employee');
+    }
   }
 
   @override
@@ -38,32 +81,32 @@ class EmployeeRepo extends EmployeeService {
       EmployeeModel(
         employee_number: "001",
         surname: "Employee1",
-        otherNames: "Employee Other Name 1",
-        dob: DateTime(1990, 1, 1),
+        other_names: "Employee Other Name 1",
+        date_of_birth: DateTime(1990, 1, 1),
       ),
       EmployeeModel(
         employee_number: "002",
         surname: "Employee2",
-        otherNames: "Employee Other Name 2",
-        dob: DateTime(1990, 1, 1),
+        other_names: "Employee Other Name 2",
+        date_of_birth: DateTime(1990, 1, 1),
       ),
       EmployeeModel(
         employee_number: "003",
         surname: "Employee3",
-        otherNames: "Employee Other Name 3",
-        dob: DateTime(1990, 1, 1),
+        other_names: "Employee Other Name 3",
+        date_of_birth: DateTime(1990, 1, 1),
       ),
       EmployeeModel(
         employee_number: "004",
         surname: "Employee4",
-        otherNames: "Employee Other Name 4",
-        dob: DateTime(1990, 1, 1),
+        other_names: "Employee Other Name 4",
+        date_of_birth: DateTime(1990, 1, 1),
       ),
       EmployeeModel(
         employee_number: "005",
         surname: "Employee5",
-        otherNames: "Employee Other Name 5",
-        dob: DateTime(1990, 1, 1),
+        other_names: "Employee Other Name 5",
+        date_of_birth: DateTime(1990, 1, 1),
       ),
     ];
 

@@ -2,7 +2,6 @@ import 'package:client_app/features/employee/models/employee_model.dart';
 import 'package:client_app/features/employee/presentation/screens/edit_employee_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 class EmployeeTableWid extends ConsumerWidget {
   final List<EmployeeModel> data;
@@ -10,7 +9,6 @@ class EmployeeTableWid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dFormat = DateFormat('dd/MM/yyyy');
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: SingleChildScrollView(
@@ -42,13 +40,13 @@ class EmployeeTableWid extends ConsumerWidget {
                           },
                           icon: const Icon(Icons.edit, color: Colors.green),
                           label: Text(
-                            e.surname,
+                            e.surname ?? "",
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ),
                       ),
-                      DataCell(Text(e.otherNames)),
-                      DataCell(Text(dFormat.format(e.dob as DateTime))),
+                      DataCell(Text(e.other_names ?? "")),
+                      DataCell(Text("${e.date_of_birth}")),
                     ],
                   ),
                 )

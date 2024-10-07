@@ -1,6 +1,6 @@
 import 'package:client_app/features/employee/models/employee_model.dart';
 import 'package:client_app/features/employee/providers/empoyee_providers.dart';
-import 'package:client_app/features/employee/repos/user_repo.dart';
+import 'package:client_app/features/employee/repos/employee_repo.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // employee controllers provider
@@ -17,7 +17,8 @@ class EmployeeControllers extends StateNotifier<AsyncValue> {
   Future<bool> addEmployee(EmployeeModel employee) async {
     state = const AsyncLoading();
     try {
-      // TODO Use _repo to add employee
+      await _repo.createEmployee(employee);
+      state = const AsyncData(null);
       return true;
     } catch (e, s) {
       state = AsyncError(e, s);
@@ -29,7 +30,8 @@ class EmployeeControllers extends StateNotifier<AsyncValue> {
   Future<bool> updateEmployee(EmployeeModel employee) async {
     state = const AsyncLoading();
     try {
-      // TODO Use _repo to update employee
+      await _repo.updateEmployee(employee);
+      state = const AsyncData(null);
       return true;
     } catch (e, s) {
       state = AsyncError(e, s);
@@ -41,7 +43,8 @@ class EmployeeControllers extends StateNotifier<AsyncValue> {
   Future<bool> deleteEmployee(String employeeId) async {
     state = const AsyncLoading();
     try {
-      // TODO Use _repo to delete employee
+      await _repo.deleteEmployee(employeeId);
+      state = const AsyncData(null);
       return true;
     } catch (e, s) {
       state = AsyncError(e, s);

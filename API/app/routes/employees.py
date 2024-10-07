@@ -1,6 +1,7 @@
 import os
 from flask import Blueprint, request, jsonify, current_app
 from app.models.employee import Employee
+# from app.models.api_request import APIRequest
 from app.utils import generate_employee_number, encode_image
 employees_bp = Blueprint('employees', __name__)
 
@@ -66,7 +67,13 @@ def register_staff():
     try:
         db = current_app.db
         db.collection('EMPLOYEES').document(employee_number).set(new_employee.serialize())
+        # if success, save to API request to database
+        api_request = APIRequest(name='register_staff', status='success', message='Staff registration successful.')
+        db.collection('API_REQUESTS').add(api_request.serialize())
     except Exception as e:
+        # if error, save to API request to database
+        api_request = APIRequest(name='register_staff', status='error', message=f'Error saving employee to database: {str(e)}')
+        db.collection('API_REQUESTS').add(api_request.serialize())
         return jsonify({'message': f'Error saving employee to database: {str(e)}'}), 500
 
     return jsonify({
@@ -98,7 +105,8 @@ def get_staff():
         data = []
         for doc in docs:
             data.append(doc.to_dict())
-
+        # api_request = APIRequest(name='get_staff', status='success', message='Staff retrieved successfully.')
+        # db.collection('API_REQUESTS').add(api_request.serialize())
         return jsonify(data), 200
     else:
         collection_ref = db.collection('EMPLOYEES')
@@ -106,7 +114,8 @@ def get_staff():
         data = []
         for doc in docs:
             data.append(doc.to_dict())
-
+        # api_request = APIRequest(name='get_staff', status='success', message='Staff retrieved successfully.')
+        # db.collection('API_REQUESTS').add(api_request.serialize())
         return jsonify(data), 200
     
 # Staff Update API
@@ -151,8 +160,12 @@ def update_staff(employee_number):
     if updates:
         try:
             employee_ref.update(updates)  # Update employee document in Firestore
+            # api_request = APIRequest(name='update_staff', status='success', message='Employee updated successfully.')
+            # db.collection('API_REQUESTS').add(api_request.serialize())
             return jsonify({'message': 'Employee updated successfully.'}), 200
         except Exception as e:
+            # api_request = APIRequest(name='update_staff', status='error', message=f'Error updating employee: {str(e)}')
+            # db.collection('API_REQUESTS').add(api_request.serialize())
             return jsonify({'message': f'Error updating employee: {str(e)}'}), 500
 
     return jsonify({'message': 'No fields to update.'}), 400

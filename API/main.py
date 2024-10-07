@@ -4,5 +4,8 @@ import gunicorn
 app = create_app()
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    # gunicorn.main(bind='0.0.0.0:8000', workers=1)
+    # app.run(debug=True)
+    gunicorn.main(bind='0.0.0.0:8000', workers=1)
+
+# how to run with gunicorn
+# gunicorn main:app --bind

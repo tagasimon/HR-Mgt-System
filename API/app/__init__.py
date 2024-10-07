@@ -1,9 +1,10 @@
 import os
+from flask_cors import CORS
 from flask import Flask
 from google.cloud import firestore
 from .routes.home import home_bp
 from .routes.employees import employees_bp
-from flask_cors import CORS
+from .routes.api_requests import api_requests_bp
 
 def create_app():
     app = Flask(__name__)
@@ -16,4 +17,5 @@ def create_app():
     # Register Blueprints
     app.register_blueprint(home_bp)
     app.register_blueprint(employees_bp)
+    app.register_blueprint(api_requests_bp)
     return app

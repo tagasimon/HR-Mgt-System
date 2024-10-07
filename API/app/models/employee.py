@@ -1,4 +1,7 @@
 class Employee:
+    """
+    A class to represent an employee.
+    """
     def __init__(self, surname, other_names, date_of_birth, employee_number, id_photo):
         self.surname = surname
         self.other_names = other_names

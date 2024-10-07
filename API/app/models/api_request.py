@@ -1,9 +1,13 @@
 class APIRequest:
-    def __init__(self, name, status, message, date):
+    """
+    APIRequest class to represent an API request object.
+    """
+    def __init__(self, name, status, message, date, method):
         self.name = name
         self.status = status
         self.message = message
         self.date = date
+        self.method = method
 
     def serialize(self):
         """
@@ -16,5 +20,6 @@ class APIRequest:
             'name': self.name,
             'status': self.status,
             'message': self.message,
-            'date': self.date
+            'date': self.date,
+            'method': self.method
         }

@@ -12,20 +12,65 @@
     </header>
     <div class="container">
         <h2>Endpoints</h2>
+
         <div class="endpoint">
-            <h3>1. Get Employees</h3>
-            <p><strong>Endpoint:</strong> /employees</p>
-            <p><strong>Method:</strong> GET</p>
-            <p><strong>Description:</strong> Returns the employees from the database.</p>
+            <h3>1. Register Staff</h3>
+            <p><strong>Endpoint:</strong> <code>/api/register</code></p>
+            <p><strong>Method:</strong> POST</p>
+            <p><strong>Description:</strong> Registers a new staff member by processing form data, validating required fields, encoding an optional ID photo, generating an employee number, and saving the employee information to a Firestore database.</p>
+            <p><strong>Form Fields:</strong></p>
+            <ul>
+                <li><strong>surname</strong> (str): The surname of the staff member.</li>
+                <li><strong>other_names</strong> (str): The other names of the staff member.</li>
+                <li><strong>date_of_birth</strong> (str): The date of birth of the staff member.</li>
+                <li><strong>unique_code</strong> (str): A unique code for the staff member.</li>
+                <li><strong>id_photo</strong> (str, optional): A base64 encoded image string or a file representing the ID photo.</li>
+            </ul>
+            <p><strong>Possible Responses:</strong></p>
+            <ul>
+                <li>201: Staff registration successful with the generated employee number.</li>
+                <li>400: Missing required fields, invalid unique code, or error processing the ID photo.</li>
+                <li>500: Error saving the employee to the database.</li>
+            </ul>
         </div>
-    </div>
-    <div class="container">
-        <h2>Endpoints</h2>
+
         <div class="endpoint">
-            <h3>1. Get Employees</h3>
-            <p><strong>Endpoint:</strong> /employees/employee-code</p>
+            <h3>2. Get Staff</h3>
+            <p><strong>Endpoint:</strong> <code>/api/staff</code></p>
             <p><strong>Method:</strong> GET</p>
-            <p><strong>Description:</strong> Returns an employee by Id</p>
+            <p><strong>Description:</strong> Retrieves employee data from the Firestore database. If an employee number is provided as a query parameter, it retrieves the specific employee's data; otherwise, it retrieves data for all employees.</p>
+            <p><strong>Query Parameters:</strong></p>
+            <ul>
+                <li><strong>id</strong> (str, optional): The employee number to retrieve specific employee data.</li>
+            </ul>
+            <p><strong>Possible Responses:</strong></p>
+            <ul>
+                <li>200: Employee data retrieved successfully.</li>
+                <li>404: Employee not found if a specific ID is requested but not found.</li>
+            </ul>
+        </div>
+
+        <div class="endpoint">
+            <h3>3. Update Staff</h3>
+            <p><strong>Endpoint:</strong> <code>/api/staff/&lt;employee_number&gt;</code></p>
+            <p><strong>Method:</strong> PUT</p>
+            <p><strong>Description:</strong> Updates the details of an employee in the Firestore database. The function expects form data to be available in the request context.</p>
+            <p><strong>Path Parameters:</strong></p>
+            <ul>
+                <li><strong>employee_number</strong> (str): The unique identifier of the employee to update.</li>
+            </ul>
+            <p><strong>Form Fields:</strong></p>
+            <ul>
+                <li><strong>date_of_birth</strong> (str, optional): The updated date of birth of the staff member.</li>
+                <li><strong>id_photo</strong> (str, optional): A base64 encoded image string or a file representing the updated ID photo.</li>
+            </ul>
+            <p><strong>Possible Responses:</strong></p>
+            <ul>
+                <li>200: Employee updated successfully.</li>
+                <li>400: No fields to update or error processing the image.</li>
+                <li>404: Employee not found.</li>
+                <li>500: Error updating employee in Firestore.</li>
+            </ul>
         </div>
     </div>
 </body>

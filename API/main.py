@@ -1,6 +1,5 @@
 from app import create_app
 import gunicorn
-from flask_sqlalchemy import SQLAlchemy
 
 app = create_app()
 
